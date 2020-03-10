@@ -24,40 +24,30 @@ $movies = $pdo->prepare('SELECT * FROM movies');
 $movies->execute();
 
 
-function echoSeries($series)
-{
-    while ($row = $series->fetch(PDO::FETCH_OBJ))
-    {
+function echoSeries($series) {
+    while ($row = $series->fetch(PDO::FETCH_OBJ)) {
         echo 
-        '<tr> ' . 
-            '<td>' . $row->title . '</td>' . 
-            '<td>' . $row->rating . '</td>' . 
-        '</tr>';
+        '<tr> ' . '<td>' . $row->title . '</td>' . '<td>' . $row->rating . '</td>' . '</tr>';
     }
 }
 
-function echoMovies($movies)
-{
-    while ($row = $movies->fetch(PDO::FETCH_OBJ))
-    {
+function echoMovies($movies) {
+    while ($row = $movies->fetch(PDO::FETCH_OBJ)) {
         echo 
-        '<tr>' . 
-            '<td>' . $row->title . '</td>' .
-            '<td>' . $row->duur . '</td>' .
-        '</tr>';
+        '<tr>' . '<td>' . $row->title . '</td>' . '<td>' . $row->duur . '</td>' . '</tr>';
     }
 }
-
 
 ?>
+
 <h2>Welkom op Netland</h2>
-<table> 
-<h3>Series</h3>
-    <tr>
+    <table> 
+        <h3>Series</h3>
+        <tr>
         <th>Titel</th>
         <th>Rating</th>
-    </tr>
-<?php echoSeries($series);?>
+        </tr>
+    <?php echoSeries($series);?>
 </table>
 
 <br>
