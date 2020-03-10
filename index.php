@@ -26,15 +26,13 @@ $movies->execute();
 
 function echoSeries($series) {
     while ($row = $series->fetch(PDO::FETCH_OBJ)) {
-        echo 
-        '<tr> ' . '<td>' . $row->title . '</td>' . '<td>' . $row->rating . '</td>' . '</tr>';
+        echo '<tr><td>' . $row->title . '</td><td>' . $row->rating . '</td></tr>';
     }
 }
 
 function echoMovies($movies) {
     while ($row = $movies->fetch(PDO::FETCH_OBJ)) {
-        echo 
-        '<tr>' . '<td>' . $row->title . '</td>' . '<td>' . $row->duur . '</td>' . '</tr>';
+        echo '<tr><td>' . $row->title . '</td><td>' . $row->duur . '</td></tr>';
     }
 }
 
