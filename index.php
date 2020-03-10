@@ -6,56 +6,80 @@ $pass = '';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     PDO::ATTR_EMULATE_PREPARES   => false,
 ];
 try {
-	 $pdo = new PDO($dsn, $user, $pass, $options);
-	 echo("Verbonden met: " . $db);
+     $pdo = new PDO($dsn, $user, $pass, $options);
+     echo("Verbonden met: " . $db);
 } catch (\PDOException $e) {
      throw new \PDOException($e->getMessage(), (int)$e->getCode());
 }
+
 $series = $pdo->prepare('SELECT * FROM series');
 $series->execute();
 
 $movies = $pdo->prepare('SELECT * FROM movies');
 $movies->execute();
 
+$series_array = $series->fetchAll(PDO::FETCH_OBJ);
+$movies_array = $movies->fetchAll(PDO::FETCH_OBJ);
 
-function echoSeries($series) {
-    while ($row = $series->fetch(PDO::FETCH_OBJ)) {
-        echo '<tr><td>' . $row->title . '</td><td>' . $row->rating . '</td></tr>';
+function echoSeries()
+{
+    global $series_array;
+    foreach ($series_array as $key) 
+    {
+        echo 
+        '<tr>' .
+            '<td>' . $key->title . '</td>' .
+            '<td>' . $key->rating . '</td>' .
+            '<td>' . "<a href='series.php?id=$key->id'>details</a>" . '</td>' .
+        '</tr>';
     }
 }
 
-function echoMovies($movies) {
-    while ($row = $movies->fetch(PDO::FETCH_OBJ)) {
-        echo '<tr><td>' . $row->title . '</td><td>' . $row->duur . '</td></tr>';
+function echoMovies()
+{
+    global $movies_array;
+    foreach ($movies_array as $key) 
+    {
+        echo 
+        '<tr>' .
+            '<td>' . $key->title . '</td>' .
+            '<td>' . $key->duur . '</td>' .
+            '<td>' . "<a href='films.php?id=$key->id'>details</a>" . '</td>' .
+        '</tr>';
     }
 }
 
 ?>
-
-<h2>Welkom op Netland</h2>
-    <table> 
+    <table>
         <h3>Series</h3>
-        <tr>
+    <tr>
         <th>Titel</th>
         <th>Rating</th>
-        </tr>
-    <?php echoSeries($series);?>
-</table>
+        <th>Details</th>
+    </tr>
+    <tr>
+<?php echoSeries($series); ?>
+    </tr>
+    </table>
 
 <br>
 <br>
 
-<table> 
-<h3>Movies</h3>
+    <table>
+        <h3>Films</h3>
     <tr>
         <th>Titel</th>
         <th>Duur</th>
-    </tr>
-<?php echoMovies($movies);?>
+        <th>Details</th>
+</tr>
+<tr>
+<?php echoMovies($movies); ?>
+</tr>
 </table>
